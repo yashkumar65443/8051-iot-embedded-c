@@ -1,0 +1,22 @@
+# Keil uVision intermediate and user-specific files
+*.obj
+*.lst
+*.m51
+*.lnp
+*.build_log.htm
+*.uvgui.*
+*.uvgui
+*.bak
+*.crf
+*.d
+*.__i
+*.iex
+*.map
+*.scratch
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+.DS_Store
