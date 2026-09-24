@@ -14,6 +14,10 @@
 *.map
 *.scratch
 
+# Keep only .hex in Objects folders
+**/Objects/*
+!**/Objects/*.hex
+
 # OS generated files
 Thumbs.db
 ehthumbs.db
