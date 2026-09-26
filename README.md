@@ -12,6 +12,11 @@ A comprehensive collection of embedded C firmware projects and introductory labo
 │   ├── EEPROM.uvproj                 # Keil µVision Project file
 │   └── Objects/EEPROM.hex            # Pre-compiled Intel HEX binary
 │
+├── Home-Automation/                  # UART / Bluetooth Home Automation System
+│   ├── HOME.c                        # C source code (Serial command parser & relay control)
+│   ├── HOME.uvproj                   # Keil µVision Project file
+│   └── Objects/HOME.hex              # Pre-compiled Intel HEX binary
+│
 ├── LCD/                              # 16x2 Alphanumeric LCD Driver (4-bit Mode)
 │   ├── LCD.c                         # C source code (HD44780 4-bit mode driver)
 │   ├── LCD.uvproj                    # Keil µVision Project file
@@ -60,23 +65,33 @@ A comprehensive collection of embedded C firmware projects and introductory labo
 * **Pin Configuration**: `SCL = P2.0`, `SDA = P2.1`
 * **Description**: Writes 4 ASCII characters (`'8'`, `'0'`, `'5'`, `'1'`) to an external 24Cxx EEPROM at address `0x0000`. After a 10 ms write-cycle delay, it reads back the 4 bytes and prints them over **UART @ 9600 Baud** using `printf`.
 
-### 2. 16x2 Character LCD in 4-Bit Mode (`LCD/`)
+### 2. Home Automation via UART / Bluetooth (`Home-Automation/`)
+* **Communication Protocol**: **UART @ 9600 Baud** (compatible with PC Serial Terminal, HC-05 Bluetooth, or ESP8266 Wi-Fi)
+* **Pin Configuration**: `Lamp = P0.0`, `Fan = P0.1`, `TX = P3.1`, `RX = P3.0`
+* **Command Mapping**:
+  * `'1'` → Turns **Lamp ON** (`P0.0 = 1`)
+  * `'2'` → Turns **Lamp OFF** (`P0.0 = 0`)
+  * `'3'` → Turns **Fan ON** (`P0.1 = 1`)
+  * `'4'` → Turns **Fan OFF** (`P0.1 = 0`)
+  * Any other character → Replies `"choose 1,2,3,4"`
+
+### 3. 16x2 Character LCD in 4-Bit Mode (`LCD/`)
 * **Hardware Interface**: HD44780-compatible LCD connected to **Port 0**
 * **Pin Configuration**: `RS = P0.0`, `RW = P0.1`, `EN = P0.2`, `D4-D7 = P0.4 - P0.7`
 * **Description**: Splits each 8-bit command and ASCII character into two 4-bit nibbles to save microcontroller pins. Initializes the LCD in 4-bit, 2-line mode (`0x28`) and displays `"Hello World"` on Line 1 and `"ESD -IOT"` on Line 2.
 
-### 3. SPI 12-Bit ADC Interfacing (`SPI-ADC/`)
+### 4. SPI 12-Bit ADC Interfacing (`SPI-ADC/`)
 * **Sensor / ADC Chip**: Microchip **MCP3202** (Dual-channel 12-bit ADC)
 * **Communication Protocol**: Software bit-banged **SPI**
 * **Pin Configuration**: `CS = P2.4`, `CLK = P2.5`, `DO (MISO) = P2.6`, `DI (MOSI) = P2.7`
 * **Description**: Commands the MCP3202 in single-ended mode, reads the 12-bit converted analog value ($0 - 4095$ range, $\approx 1.22\text{ mV}$ precision), and transmits the reading over UART to a terminal screen.
 
-### 4. Serial UART Transmit (`UART-Transmit/`)
+### 5. Serial UART Transmit (`UART-Transmit/`)
 * **Baud Rate**: **9600 Baud** (Timer 1, Mode 2 8-bit auto-reload, `TH1 = 0xFD` @ 11.0592 MHz)
 * **Pin Configuration**: `TX = P3.1`, `RX = P3.0`
 * **Description**: Demonstrates direct hardware register manipulation (`SBUF`, `TI`) to stream strings (`"Hello World!! \n\r"`) to a host PC without the overhead of `printf`.
 
-### 5. Full-Duplex UART Echo Server (`UART-Echo/`)
+### 6. Full-Duplex UART Echo Server (`UART-Echo/`)
 * **Baud Rate**: **9600 Baud**
 * **Pin Configuration**: `TX = P3.1`, `RX = P3.0`
 * **Description**: Implements a bi-directional serial transceiver. Polling the `RI` (Receive Interrupt) flag, it captures incoming ASCII characters from terminal software (PuTTY / Tera Term / Serial Monitor) and immediately transmits them back over `TX`.
