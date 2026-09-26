@@ -1,14 +1,19 @@
-# Keil uVision intermediate and user-specific files
+# Keil uVision (C51 & MDK-ARM) intermediate and user-specific files
 *.obj
+*.o
 *.lst
 *.m51
 *.lnp
 *.build_log.htm
+*.htm
 *.uvgui.*
 *.uvgui
 *.bak
 *.crf
 *.d
+*.dep
+*.sct
+*.axf
 *.__i
 *.iex
 *.map

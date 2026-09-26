@@ -1,44 +1,51 @@
-# 8051 Microcontroller Embedded C & IoT Firmware Repository
+# 8051 & ARM7 (LPC2148) Embedded C & IoT Firmware Repository
 
-A comprehensive collection of embedded C firmware projects and introductory laboratory exercises for the **8051 Microcontroller (AT89C51 / AT89S52 / AT89C52)**, developed in **Keil µVision (C51)** for the Pantech Embedded Systems & IoT (ESD - IoT) curriculum.
+A comprehensive collection of embedded C firmware projects and laboratory exercises for **8051 Microcontrollers (AT89C51 / AT89S52)** and **32-bit ARM7TDMI-S (NXP LPC2148)**, developed in **Keil µVision** for the Pantech Embedded Systems & IoT (ESD - IoT) curriculum.
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-├── EEPROM/                           # I2C Serial EEPROM Interfacing
+├── ARM7-LPC2148/                     # 32-Bit ARM7 (NXP LPC2148) Projects
+│   └── UART-Demo/                    # UART0 Serial Transceiver @ 9600 Baud
+│       ├── uartdemo.c                # C source code (PINSEL0, U0LCR, U0DLL, U0THR/RBR)
+│       ├── Startup.s                 # ARM7 startup assembly code
+│       ├── uartdemo.uvproj           # Keil µVision Project file
+│       └── uartdemo.hex              # Pre-compiled Intel HEX binary
+│
+├── EEPROM/                           # 8051 I2C Serial EEPROM Interfacing
 │   ├── EEPROM.c                      # C source code (I2C bit-banging & UART)
 │   ├── EEPROM.uvproj                 # Keil µVision Project file
 │   └── Objects/EEPROM.hex            # Pre-compiled Intel HEX binary
 │
-├── Home-Automation/                  # UART / Bluetooth Home Automation System
+├── Home-Automation/                  # 8051 UART / Bluetooth Home Automation System
 │   ├── HOME.c                        # C source code (Serial command parser & relay control)
 │   ├── HOME.uvproj                   # Keil µVision Project file
 │   └── Objects/HOME.hex              # Pre-compiled Intel HEX binary
 │
-├── LCD/                              # 16x2 Alphanumeric LCD Driver (4-bit Mode)
+├── LCD/                              # 8051 16x2 Alphanumeric LCD Driver (4-bit Mode)
 │   ├── LCD.c                         # C source code (HD44780 4-bit mode driver)
 │   ├── LCD.uvproj                    # Keil µVision Project file
 │   └── Objects/LCD.hex               # Pre-compiled Intel HEX binary
 │
-├── SPI-ADC/                          # MCP3202 12-Bit SPI ADC Interfacing
+├── SPI-ADC/                          # 8051 MCP3202 12-Bit SPI ADC Interfacing
 │   ├── SPI-ADC.c                     # C source code (SPI bit-banging & channel read)
 │   ├── STARTUP.A51                   # 8051 startup assembly file
 │   ├── SPI-ADC.uvproj                # Keil µVision Project file
 │   └── Objects/SPI-ADC.hex           # Pre-compiled Intel HEX binary
 │
-├── UART-Transmit/                    # Serial UART String Transmission
+├── UART-Transmit/                    # 8051 Serial UART String Transmission
 │   ├── Main.c                        # C source code (Register-level UART TX)
 │   ├── UART.uvproj                   # Keil µVision Project file
 │   └── Objects/UART.hex              # Pre-compiled Intel HEX binary
 │
-├── UART-Echo/                        # Full-Duplex UART Echo Server
+├── UART-Echo/                        # 8051 Full-Duplex UART Echo Server
 │   ├── Main.c                        # C source code (Serial RX and immediate TX)
 │   ├── UART.uvproj                   # Keil µVision Project file
 │   └── Objects/UART.hex              # Pre-compiled Intel HEX binary
 │
-├── labs/                             # Introductory GPIO Experiments
+├── labs/                             # 8051 Introductory GPIO Experiments
 │   ├── led-blinking/                 # Lab 1: All-LED Blinking
 │   │   ├── blinkled.c                # Toggles Port 2 LEDs ON/OFF
 │   │   ├── ledblinking.uvproj
@@ -52,13 +59,23 @@ A comprehensive collection of embedded C firmware projects and introductory labo
 │       ├── switch.uvproj
 │       └── Objects/switch.hex
 │
-├── .gitignore                        # Filters Keil intermediate artifacts
+├── .gitignore                        # Filters Keil C51 & ARM intermediate artifacts
 └── README.md                         # Documentation
 ```
 
 ---
 
-## 🚀 Projects Overview
+## ⚡ ARM7 (NXP LPC2148) Projects
+
+### UART0 Serial Communication (`ARM7-LPC2148/UART-Demo/`)
+* **Target MCU**: NXP **LPC2148** (32-bit ARM7TDMI-S, 60 MHz CCLK, 30 MHz PCLK via `VPBDIV = 0x02`)
+* **Pin Configuration**: `P0.0 = TXD0`, `P0.1 = RXD0` (configured via `PINSEL0 = 0x00000005`)
+* **Baud Rate Configuration**: **9600 Baud** (8N1 frame format via `U0LCR = 0x83`, Divisor Latch `U0DLL = 0xC3` (195) for 30 MHz PCLK)
+* **Description**: Implements full-duplex UART0 drivers (`UART0_Txchar`, `UART0_Rxchar`, `UART0_SendString`) using polling on Line Status Register (`U0LSR`) flags (`THRE` and `RDR`). Continuously transmits `"HELLO WORLD\r\n"`.
+
+---
+
+## 🚀 8051 Projects Overview
 
 ### 1. I2C EEPROM Interfacing (`EEPROM/`)
 * **Communication Protocol**: Software bit-banged **I2C**
@@ -110,10 +127,9 @@ A comprehensive collection of embedded C firmware projects and introductory labo
 
 ## 🛠️ Tools & Prerequisites
 
-* **IDE / Compiler**: [Keil µVision (C51)](https://www.keil.com/c51/)
+* **IDE / Compiler**: [Keil µVision (C51 & MDK-ARM)](https://www.keil.com/)
 * **Hardware Simulation**: Proteus VSM
-* **Flash Programmer**: Flash Magic, ProgISP, or USBASP
-* **Crystal Oscillator**: 11.0592 MHz (standard for 8051 zero-error UART baud rates)
+* **Flash Programmer**: Flash Magic (for NXP LPC2148 & 8051) / ProgISP / USBASP
 
 ---
 
@@ -122,4 +138,4 @@ A comprehensive collection of embedded C firmware projects and introductory labo
 1. Open **Keil µVision**.
 2. Click **Project** > **Open Project...** and select any `.uvproj` file from any directory.
 3. Press **F7** to build the project.
-4. Load the generated `.hex` binary from the `Objects/` folder into your physical programmer or Proteus simulator schematic.
+4. Load the generated `.hex` binary into your physical programmer or Proteus simulator schematic.
