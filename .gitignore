@@ -9,6 +9,7 @@
 *.uvgui.*
 *.uvgui
 *.bak
+*.Bak
 *.crf
 *.d
 *.dep
@@ -18,6 +19,25 @@
 *.iex
 *.map
 *.scratch
+
+# Microchip MPLAB / HI-TECH C intermediate files
+*.cce
+*.cod
+*.cof
+*.hxl
+*.lde
+*.mcs
+*.mcw
+*.mptags
+*.p1
+*.pre
+*.rlf
+*.sdb
+*.sym
+*.tagsrc
+*.as
+funclist
+hexfile.log
 
 # Keep only .hex in Objects folders
 **/Objects/*

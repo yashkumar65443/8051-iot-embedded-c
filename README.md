@@ -1,141 +1,123 @@
-# 8051 & ARM7 (LPC2148) Embedded C & IoT Firmware Repository
+# Multi-Architecture Embedded Systems & IoT Firmware Repository
 
-A comprehensive collection of embedded C firmware projects and laboratory exercises for **8051 Microcontrollers (AT89C51 / AT89S52)** and **32-bit ARM7TDMI-S (NXP LPC2148)**, developed in **Keil µVision** for the Pantech Embedded Systems & IoT (ESD - IoT) curriculum.
+A complete collection of embedded C/C++ firmware projects and laboratory exercises spanning **5 microcontroller architectures** (**8051**, **ARM7 LPC2148**, **ARM Cortex-M4 LPC4088**, **Microchip PIC16F877A**, and **ESP8266 NodeMCU**), developed for the Pantech Embedded Systems & IoT (ESD - IoT) curriculum.
 
 ---
 
-## 📁 Repository Structure
+## 📁 Complete Repository Structure
 
 ```
-├── ARM7-LPC2148/                     # 32-Bit ARM7 (NXP LPC2148) Projects
-│   └── UART-Demo/                    # UART0 Serial Transceiver @ 9600 Baud
-│       ├── uartdemo.c                # C source code (PINSEL0, U0LCR, U0DLL, U0THR/RBR)
-│       ├── Startup.s                 # ARM7 startup assembly code
-│       ├── uartdemo.uvproj           # Keil µVision Project file
-│       └── uartdemo.hex              # Pre-compiled Intel HEX binary
+├── 8051 Projects (Root & labs/)
+│   ├── EEPROM/                                 # I2C Serial EEPROM (24Cxx) + UART
+│   ├── Home-Automation/                        # UART / Bluetooth Appliance Control
+│   ├── LCD/                                    # 16x2 Character LCD (4-bit mode)
+│   ├── SPI-ADC/                                # MCP3202 12-Bit SPI ADC Interfacing
+│   ├── UART-Transmit/                          # Register-level UART String Transmitter
+│   ├── UART-Echo/                              # Full-Duplex UART Echo Server
+│   └── labs/                                   # Introductory 8051 GPIO Labs
+│       ├── led-blinking/                       # Lab 1: All-LED Blinking
+│       ├── scrolling-led/                      # Lab 2: LED Chaser / Bit-Shifter
+│       └── switch-interfacing/                 # Lab 3: Switch Input to LED Output
 │
-├── EEPROM/                           # 8051 I2C Serial EEPROM Interfacing
-│   ├── EEPROM.c                      # C source code (I2C bit-banging & UART)
-│   ├── EEPROM.uvproj                 # Keil µVision Project file
-│   └── Objects/EEPROM.hex            # Pre-compiled Intel HEX binary
+├── ARM7-LPC2148/                               # 32-Bit ARM7TDMI-S (NXP LPC2148 @ 60MHz)
+│   ├── UART-Demo/                              # UART0 Transceiver @ 9600 Baud
+│   ├── LCD-16x2/                               # 16x2 LCD in 8-Bit Mode (Port 1)
+│   └── DHT11-ESP8266-ThingSpeak/               # DHT11 Sensor + ESP8266 Cloud Upload
 │
-├── Home-Automation/                  # 8051 UART / Bluetooth Home Automation System
-│   ├── HOME.c                        # C source code (Serial command parser & relay control)
-│   ├── HOME.uvproj                   # Keil µVision Project file
-│   └── Objects/HOME.hex              # Pre-compiled Intel HEX binary
+├── ARM-Cortex-M4-LPC4088/                      # 32-Bit ARM Cortex-M4 (NXP LPC4088 @ 120MHz)
+│   ├── LED-Blinking/                           # GPIO Port 4 (P4.0 - P4.7) LED Blinking
+│   ├── LED-with-Switch/                        # Switch Input (P4.8-P4.15) to LED (P4.0-P4.7)
+│   ├── Buzzer/                                 # Buzzer Control on GPIO P0.26
+│   ├── LCD-16x2/                               # 16x2 LCD in 4-Bit Mode (P0.4/P0.5 & P4.28-P4.31)
+│   ├── UART0/                                  # UART0 Serial Echo @ 9600 Baud (P0.2/P0.3)
+│   └── DHT11-Sensor/                           # Hardware Timer-based DHT11 Temperature/Humidity
 │
-├── LCD/                              # 8051 16x2 Alphanumeric LCD Driver (4-bit Mode)
-│   ├── LCD.c                         # C source code (HD44780 4-bit mode driver)
-│   ├── LCD.uvproj                    # Keil µVision Project file
-│   └── Objects/LCD.hex               # Pre-compiled Intel HEX binary
+├── PIC16F877A/                                 # 8-Bit Microchip PIC16F877A (MPLAB / HI-TECH C)
+│   ├── LED-Blinking/                           # Multi-Port (PORTA - PORTE) LED Blinking
+│   ├── LCD-and-7Segment/                       # 16x2 LCD (8-bit) & 4x7-Segment Multiplexed Counter
+│   ├── Relay-and-Buzzer-UART/                  # Serial Menu-Controlled Relay & Buzzer System
+│   └── USART/                                  # Hardware USART Echo & printf() Integration
 │
-├── SPI-ADC/                          # 8051 MCP3202 12-Bit SPI ADC Interfacing
-│   ├── SPI-ADC.c                     # C source code (SPI bit-banging & channel read)
-│   ├── STARTUP.A51                   # 8051 startup assembly file
-│   ├── SPI-ADC.uvproj                # Keil µVision Project file
-│   └── Objects/SPI-ADC.hex           # Pre-compiled Intel HEX binary
+├── ESP8266-IoT/                                # Wi-Fi SoC (Arduino IDE / Blynk Cloud)
+│   └── Blynk-Google-Assistant/                 # Blynk + Google Assistant Smart Home Automation
 │
-├── UART-Transmit/                    # 8051 Serial UART String Transmission
-│   ├── Main.c                        # C source code (Register-level UART TX)
-│   ├── UART.uvproj                   # Keil µVision Project file
-│   └── Objects/UART.hex              # Pre-compiled Intel HEX binary
-│
-├── UART-Echo/                        # 8051 Full-Duplex UART Echo Server
-│   ├── Main.c                        # C source code (Serial RX and immediate TX)
-│   ├── UART.uvproj                   # Keil µVision Project file
-│   └── Objects/UART.hex              # Pre-compiled Intel HEX binary
-│
-├── labs/                             # 8051 Introductory GPIO Experiments
-│   ├── led-blinking/                 # Lab 1: All-LED Blinking
-│   │   ├── blinkled.c                # Toggles Port 2 LEDs ON/OFF
-│   │   ├── ledblinking.uvproj
-│   │   └── Objects/ledblinking.hex
-│   ├── scrolling-led/                # Lab 2: LED Chaser / Running LED
-│   │   ├── scroll.c                  # Left & Right bitwise shifts across Port 2
-│   │   ├── scrolling.uvproj
-│   │   └── Objects/scrolling.hex
-│   └── switch-interfacing/           # Lab 3: Switch Input to LED Output
-│       ├── switch.c                  # Reads Port 0 inputs and mirrors to Port 2
-│       ├── switch.uvproj
-│       └── Objects/switch.hex
-│
-├── .gitignore                        # Filters Keil C51 & ARM intermediate artifacts
-└── README.md                         # Documentation
+├── .gitignore                                  # Filters Keil, ARM, and MPLAB build artifacts
+└── README.md                                   # Documentation
 ```
 
 ---
 
-## ⚡ ARM7 (NXP LPC2148) Projects
+## 🔒 Security & Credentials Configuration
 
-### UART0 Serial Communication (`ARM7-LPC2148/UART-Demo/`)
-* **Target MCU**: NXP **LPC2148** (32-bit ARM7TDMI-S, 60 MHz CCLK, 30 MHz PCLK via `VPBDIV = 0x02`)
-* **Pin Configuration**: `P0.0 = TXD0`, `P0.1 = RXD0` (configured via `PINSEL0 = 0x00000005`)
-* **Baud Rate Configuration**: **9600 Baud** (8N1 frame format via `U0LCR = 0x83`, Divisor Latch `U0DLL = 0xC3` (195) for 30 MHz PCLK)
-* **Description**: Implements full-duplex UART0 drivers (`UART0_Txchar`, `UART0_Rxchar`, `UART0_SendString`) using polling on Line Status Register (`U0LSR`) flags (`THRE` and `RDR`). Continuously transmits `"HELLO WORLD\r\n"`.
+Sensitive credentials have been masked with safe placeholders before publishing. Before compiling or flashing the IoT cloud projects, replace the placeholders with your own keys:
 
----
+1. **[`ESP8266-IoT/Blynk-Google-Assistant/HOMEGOOGLE.ino`](ESP8266-IoT/Blynk-Google-Assistant/HOMEGOOGLE.ino)**
+   * `YOUR_BLYNK_AUTH_TOKEN` → Your Blynk Project Auth Token
+   * `YOUR_WIFI_SSID` → Your 2.4 GHz Wi-Fi Network Name
+   * `YOUR_WIFI_PASSWORD` → Your Wi-Fi Password
 
-## 🚀 8051 Projects Overview
-
-### 1. I2C EEPROM Interfacing (`EEPROM/`)
-* **Communication Protocol**: Software bit-banged **I2C**
-* **Pin Configuration**: `SCL = P2.0`, `SDA = P2.1`
-* **Description**: Writes 4 ASCII characters (`'8'`, `'0'`, `'5'`, `'1'`) to an external 24Cxx EEPROM at address `0x0000`. After a 10 ms write-cycle delay, it reads back the 4 bytes and prints them over **UART @ 9600 Baud** using `printf`.
-
-### 2. Home Automation via UART / Bluetooth (`Home-Automation/`)
-* **Communication Protocol**: **UART @ 9600 Baud** (compatible with PC Serial Terminal, HC-05 Bluetooth, or ESP8266 Wi-Fi)
-* **Pin Configuration**: `Lamp = P0.0`, `Fan = P0.1`, `TX = P3.1`, `RX = P3.0`
-* **Command Mapping**:
-  * `'1'` → Turns **Lamp ON** (`P0.0 = 1`)
-  * `'2'` → Turns **Lamp OFF** (`P0.0 = 0`)
-  * `'3'` → Turns **Fan ON** (`P0.1 = 1`)
-  * `'4'` → Turns **Fan OFF** (`P0.1 = 0`)
-  * Any other character → Replies `"choose 1,2,3,4"`
-
-### 3. 16x2 Character LCD in 4-Bit Mode (`LCD/`)
-* **Hardware Interface**: HD44780-compatible LCD connected to **Port 0**
-* **Pin Configuration**: `RS = P0.0`, `RW = P0.1`, `EN = P0.2`, `D4-D7 = P0.4 - P0.7`
-* **Description**: Splits each 8-bit command and ASCII character into two 4-bit nibbles to save microcontroller pins. Initializes the LCD in 4-bit, 2-line mode (`0x28`) and displays `"Hello World"` on Line 1 and `"ESD -IOT"` on Line 2.
-
-### 4. SPI 12-Bit ADC Interfacing (`SPI-ADC/`)
-* **Sensor / ADC Chip**: Microchip **MCP3202** (Dual-channel 12-bit ADC)
-* **Communication Protocol**: Software bit-banged **SPI**
-* **Pin Configuration**: `CS = P2.4`, `CLK = P2.5`, `DO (MISO) = P2.6`, `DI (MOSI) = P2.7`
-* **Description**: Commands the MCP3202 in single-ended mode, reads the 12-bit converted analog value ($0 - 4095$ range, $\approx 1.22\text{ mV}$ precision), and transmits the reading over UART to a terminal screen.
-
-### 5. Serial UART Transmit (`UART-Transmit/`)
-* **Baud Rate**: **9600 Baud** (Timer 1, Mode 2 8-bit auto-reload, `TH1 = 0xFD` @ 11.0592 MHz)
-* **Pin Configuration**: `TX = P3.1`, `RX = P3.0`
-* **Description**: Demonstrates direct hardware register manipulation (`SBUF`, `TI`) to stream strings (`"Hello World!! \n\r"`) to a host PC without the overhead of `printf`.
-
-### 6. Full-Duplex UART Echo Server (`UART-Echo/`)
-* **Baud Rate**: **9600 Baud**
-* **Pin Configuration**: `TX = P3.1`, `RX = P3.0`
-* **Description**: Implements a bi-directional serial transceiver. Polling the `RI` (Receive Interrupt) flag, it captures incoming ASCII characters from terminal software (PuTTY / Tera Term / Serial Monitor) and immediately transmits them back over `TX`.
+2. **[`ARM7-LPC2148/DHT11-ESP8266-ThingSpeak/DHT11.c`](ARM7-LPC2148/DHT11-ESP8266-ThingSpeak/DHT11.c)**
+   * `YOUR_WIFI_SSID` & `YOUR_WIFI_PASSWORD` in `AT+CWJAP` command (`command_ESP_3`)
+   * `YOUR_THINGSPEAK_API_KEY` in the HTTP `GET /update?api_key=...` string (`command_ESP_7`)
 
 ---
 
-## 🔬 GPIO Laboratory Experiments (`labs/`)
+## 🖥️ Architecture Breakdown
 
-| Experiment | Port(s) | Description |
+### 1. 8051 Microcontroller (`AT89C51 / AT89S52` — Keil C51)
+| Module | Pins Used | Key Concepts |
 | :--- | :--- | :--- |
-| **Lab 1: LED Blinking** | Port 2 (`P2`) | Toggles all 8 LEDs between `0x00` and `0xFF` using software delay loops. |
-| **Lab 2: Scrolling LED** | Port 2 (`P2`) | Implements a running chaser pattern via bitwise left (`<<= 1`) and right (`>>= 1`) shifting. |
-| **Lab 3: Switch Interfacing** | Port 0 (In) & Port 2 (Out) | Sets Port 0 as input (`P0 = 0xFF;`) and copies switch states directly to Port 2 LEDs in real time. |
+| **`EEPROM/`** | `SCL=P2.0`, `SDA=P2.1` | Software bit-banged I2C master reading/writing 24Cxx EEPROM + UART output |
+| **`Home-Automation/`** | `Lamp=P0.0`, `Fan=P0.1` | UART command listener (`'1'`–`'4'`) controlling appliance relays |
+| **`LCD/`** | `P0.0-P0.2`, `P0.4-P0.7` | HD44780 16x2 LCD driver in 4-bit nibble mode |
+| **`SPI-ADC/`** | `P2.4 - P2.7` | Bit-banged SPI communication with Microchip MCP3202 12-bit ADC |
+| **`UART-Transmit/`** | `TX=P3.1`, `RX=P3.0` | Register-level (`SBUF`, `TI`) serial string streaming @ 9600 Baud |
+| **`UART-Echo/`** | `TX=P3.1`, `RX=P3.0` | Full-duplex serial transceiver polling `RI` and `TI` |
+| **`labs/`** | `P0`, `P2` | LED blinking, bitwise shift LED chaser, and DIP switch input mirroring |
 
 ---
 
-## 🛠️ Tools & Prerequisites
-
-* **IDE / Compiler**: [Keil µVision (C51 & MDK-ARM)](https://www.keil.com/)
-* **Hardware Simulation**: Proteus VSM
-* **Flash Programmer**: Flash Magic (for NXP LPC2148 & 8051) / ProgISP / USBASP
+### 2. ARM7TDMI-S (`NXP LPC2148` — Keil MDK-ARM)
+| Module | Pins Used | Key Concepts |
+| :--- | :--- | :--- |
+| **`UART-Demo/`** | `P0.0 (TXD0)`, `P0.1 (RXD0)` | 32-bit `PINSEL0`, `VPBDIV=0x02` (30 MHz PCLK), `U0LCR`, `U0DLL=195` (9600 Baud) |
+| **`LCD-16x2/`** | `P1.16 (RS)`, `P1.17 (EN)`, `P1.18-P1.25 (D0-D7)` | 8-bit parallel LCD control using `IOSET1` and `IOCLR1` registers |
+| **`DHT11-ESP8266-ThingSpeak/`** | `P1.16 (DHT11)`, `P0.0/P0.1 (UART0 @ 115200)` | Single-wire DHT11 sensor acquisition + ESP8266 AT command sequence to push temperature & humidity to **ThingSpeak Cloud** |
 
 ---
 
-## 🔨 How to Build
+### 3. ARM Cortex-M4 (`NXP LPC4088 / LPC1788` — Keil MDK-ARM)
+| Module | Pins Used | Key Concepts |
+| :--- | :--- | :--- |
+| **`LED-Blinking/`** | `P4.0 - P4.7` | Power control `LPC_SC->PCONP`, `LPC_IOCON`, and `LPC_GPIO4->DIR/PIN` |
+| **`LED-with-Switch/`** | `P4.0-P4.7 (LED)`, `P4.8-P4.15 (SW)` | Reading upper byte switch inputs and shifting right (`>>= 8`) to lower byte LEDs |
+| **`Buzzer/`** | `P0.26` | Periodic GPIO toggling for piezoelectric buzzer control |
+| **`LCD-16x2/`** | `P0.4 (RS)`, `P0.5 (EN)`, `P4.28-P4.31 (D4-D7)` | 4-bit mode LCD interfacing at 120 MHz CCLK |
+| **`UART0/`** | `P0.2 (TXD0)`, `P0.3 (RXD0)` | Cortex-M4 UART0 echo server at 9600 Baud (`DLL=195` @ 30 MHz PCLK) |
+| **`DHT11-Sensor/`** | `P4.0 (DHT11)`, `P0.2/P0.3 (UART0 @ 115200)` | Precision microsecond (`LPC_TIM1`) and millisecond (`LPC_TIM2`) hardware timers for DHT11 protocol timing |
 
-1. Open **Keil µVision**.
-2. Click **Project** > **Open Project...** and select any `.uvproj` file from any directory.
-3. Press **F7** to build the project.
-4. Load the generated `.hex` binary into your physical programmer or Proteus simulator schematic.
+---
+
+### 4. Microchip PIC16F877A (`8-Bit PIC` — MPLAB IDE / HI-TECH C)
+| Module | Pins Used | Key Concepts |
+| :--- | :--- | :--- |
+| **`LED-Blinking/`** | `PORTA` – `PORTE` | Disabling analog comparators/ADC (`ADCON1 = 0x07`) and configuring `TRISx` direction registers |
+| **`LCD-and-7Segment/`** | `PORTD`, `PORTE`, `PORTA` | Includes both a 16x2 8-bit LCD driver (`Lcd.c`) and a 4-digit multiplexed 7-segment display counter (`led.c`) |
+| **`Relay-and-Buzzer-UART/`** | `RB0 (Buzzer)`, `RB1-RB2 (Relays)`, `RC6/RC7 (USART)` | Interactive UART console menu (`'1'`–`'6'`) to switch relays and buzzer ON/OFF |
+| **`USART/`** | `RC6 (TX)`, `RC7 (RX)` | Hardware USART setup (`TXSTA`, `RCSTA`, `SPBRG`) and custom `putch()` hook for `printf()` |
+
+---
+
+### 5. ESP8266 / NodeMCU (`IoT Wi-Fi SoC` — Arduino IDE)
+| Module | Libraries | Key Concepts |
+| :--- | :--- | :--- |
+| **`Blynk-Google-Assistant/`** | `ESP8266WiFi.h`, `BlynkSimpleEsp8266.h` | Connects NodeMCU to Blynk Cloud for voice-activated relay control via Google Assistant & IFTTT |
+
+---
+
+## 🛠️ Required Toolchains
+
+* **8051 Projects**: [Keil C51 (µVision)](https://www.keil.com/c51/)
+* **ARM7 & ARM Cortex-M4 Projects**: [Keil MDK-ARM (µVision)](https://www.keil.com/arm/mdk.asp)
+* **PIC16F877A Projects**: Microchip MPLAB IDE v8 / MPLAB X with HI-TECH PICC Compiler
+* **ESP8266 Projects**: Arduino IDE with ESP8266 Board Package & Blynk Library
